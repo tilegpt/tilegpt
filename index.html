@@ -1,0 +1,991 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+body {
+  overflow-x: hidden;
+}
+.scroll-down {
+  width: 80px;
+  height: 40px;
+  right: 10px;
+  bottom: 10px;
+  position: absolute;
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #FFFFFF;
+  opacity: 0;
+  -webkit-transition: opacity 2s ease-in;
+  -moz-transition: opacity 2s ease-in;
+  -o-transition: opacity 2s ease-in;
+  -ms-transition: opacity 2s ease-in;
+  transition: opacity 2s ease-in;
+}
+.scroll-down span {
+  margin-top: 5px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-100%, 0) rotate(45deg);
+  transform-origin: 100% 100%;
+  height: 2px;
+  width: 10px;
+  background: #FFFFFF;
+}
+.scroll-down span:nth-of-type(2) {
+  transform-origin: 0 100%;
+  transform: translate(0, 0) rotate(-45deg);
+}
+.spinner {
+  position: absolute;
+  height: 160px;
+  width: 160px;
+  -webkit-animation: rotation .6s infinite linear;
+  -moz-animation: rotation .6s infinite linear;
+  -o-animation: rotation .6s infinite linear;
+  animation: rotation .6s infinite linear;
+  border-left: 6px solid rgba(0, 174, 239, .15);
+  border-right: 6px solid rgba(0, 174, 239, .15);
+  border-bottom: 6px solid rgba(0, 174, 239, .15);
+  border-top: 6px solid rgba(0, 174, 239, .8);
+  border-radius: 100%;
+  top: calc(50% - 100px);
+  left: calc(50% - 80px);
+  right: auto;
+  bottom: auto;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+.transparent {
+  opacity: 0;
+}
+
+figcaption {
+  padding: 0.5em;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+  text-align: left;
+}
+
+dt-article figcaption {
+  padding: 0.5em;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+  text-align: left;
+}
+
+dt-article figcaption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+dt-article figcaption b {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+*.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+*.svgunselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    background: none;
+    pointer-events: none;
+}
+
+.btn-group button {
+  background-color: orange;
+  border: 1px solid #FF6C00;
+  color: white; /* White text */
+  padding: 5px 12px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: center; /* Float the buttons side by side */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #FF6C00;
+}
+</style>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- roboto font -->
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
+
+  <meta name="theme-color" content="#ffffff" />
+
+
+  <!--  Global site tag (gtag.js) - Google Analytics 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141682504-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-141682504-1');
+  </script>
+  -->
+
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="TileGPT" />
+  <meta name="twitter:description" content="" />
+  <meta property="og:site_name" content="TileGPT" />
+  <meta name="twitter:image" content="https://weightagnostic.github.io/assets/img/wann_card_square_v2.png" />
+
+
+  <!-- SEO -->
+  <meta property="og:title" content="TileGPT" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="Generative Design through Quality-Diversity Data Synthesis and Language Models" />
+  <meta property="og:image" content="https://weightagnostic.github.io/assets/img/wann_card_rect_v2.png" />
+  <meta property="og:url" content="https://weightagnostic.github.io/" />
+
+
+
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+
+<!--<script src="lib/jquery-1.12.4.min.js"></script>
+<script src="lib/mobile-detect.min.js"></script>-->
+<script src="lib/template.v1.js"></script>
+
+<script type="text/front-matter">
+  title: "TileGPT -- Autodesk Research"
+  description: ""
+</script>
+<body>
+<div style="text-align: center;">
+<video class="b-lazy" data-src="assets/mp4/tilegpt_cover.mp4" type="video/mp4" autoplay muted playsinline loop style="display: block; margin: auto; width: 100%;" ></video>
+<table style="width: 100%;" cellspacing="0" cellpadding="0"><tr>
+<!-- <td width="50%"><figcaption style="text-align: center;"></figcaption></td> -->
+</tr></table>
+
+</div>
+
+<dt-article id="dtbody">
+
+<dt-byline class="l-page transparent"></dt-byline>
+<h1>TileGPT</h1>
+<h2>Generative Design through Quality-Diversity Data Synthesis and Language Models</h2>
+<p></p>
+<dt-byline class="l-page" id="authors_section" hidden>
+<div class="byline">
+  <div class="authors">
+    <div class="author">
+        <a class="name" href="https://scholar.google.com/citations?user=GGyARB8AAAAJ&hl=en">Adam Gaier</a>
+        <a class="affiliation" href="https://autodeskresearch.com/">Autodesk Research</a>
+    </div>
+    <div class="author">
+        <a class="name" href="https://www.research.autodesk.com/people/jim-stoddart/">James Stoddart</a>
+        <a class="affiliation" href="https://autodeskresearch.com/">Autodesk Research</a>
+    </div>
+    <div class="author">
+        <a class="name" href="https://scholar.google.com/citations?hl=en&user=dRmEyA8AAAAJ">Lorenzo Villaggi</a>
+        <a class="affiliation" href="https://autodeskresearch.com/">Autodesk Research</a>
+    </div>
+    <div class="author">
+        <a class="name" href="https://scholar.google.com/citations?hl=en&user=_ReWokcAAAAJ">Shyam Sudhakaran</a>
+        <a class="affiliation" href="https://autodeskresearch.com/">Autodesk Research</a>
+    </div>
+  </div>
+  <div class="date">
+    <div class="month">Mar 26</div>
+    <div class="year">2024</div>
+  </div>
+  <div class="date">
+    <div class="month">Download</div>
+    <div class="year" style="color: #FF6C00;"><a href="https://arxiv.org/abs/1906.04358" target="_blank">PDF</a></div>
+  </div>
+</div>
+</dt-byline>
+</dt-byline>
+<h2>Abstract</h2>
+<p>Two fundamental challenges face generative models in engineering applications: the acquisition of high-performing, diverse datasets, and the adherence to precise constraints in generated designs.
+We propose a novel approach combining optimization, constraint satisfaction, and language models to tackle these challenges in architectural design. Our method uses Quality-Diversity (QD) to generate a diverse, high-performing dataset. We then fine-tune a language model with this dataset to generate high-level designs. These designs are then refined into detailed, constraint-compliant layouts using the Wave Function Collapse algorithm.
+Our system demonstrates reliable adherence to textual guidance, enabling the generation of layouts with targeted architectural and performance features. Crucially, our results indicate that data synthesized through the evolutionary search of QD not only improves overall model performance but is essential for the model's ability to closely adhere to textual guidance. This improvement underscores the pivotal role evolutionary computation can play in creating the datasets key to training generative models for design.</p>
+<hr>
+<h2>1 Introduction</h2>
+<p>Generative Design (GD) in architecture represents a paradigm shift in the way designs are conceptualized and realized. It draws inspiration from natural evolution to explore vast design spaces to discover high-performing, innovative solutions <dt-cite key="nagy2017beyond"></dt-cite>. At its core, GD involves a geometry generator that delineates a broad solution space, coupled with simulations and analytical methods for evaluating each design against a set of metrics. Metaheuristic search algorithms, such as genetic algorithms, navigate this space to identify optimal solutions <dt-cite key="nagy2017project"></dt-cite>. This approach is versatile and scale-agnostic, making it applicable to a wide range of design problems and scales.</p>
+<p>In Architecture, Engineering, and Construction (AEC), GD is most commonly used in the early stages of design<dt-cite key="bradner2014parameters"></dt-cite>.This is when the potential to influence outcomes is highest, and the cost implications of design changes are minimal <dt-cite key="paulson1976designing,macleamy2004curve"></dt-cite>. GD has been successfully applied in numerous AEC projects, enabling practitioners to tackle complex challenges, balance conflicting objectives, and make informed decisions based on solid evidence <dt-cite key="nagy2017project,nagy2018generative,villaggi2018generative"></dt-cite>.</p>
+<p>But the development and deployment of GD methods requires a high level of technical expertise, which limits their scalability and accessibility. Not only that, the results of GD are large sets of complex solutions, requiring designers to spend as much effort on analysis as on creation. Worse still, typical GD workflows offer limited scope for interaction -- making changes often necessitates rerunning the entire optimization process.</p>
+<p>Large language models (LLMs), which have streamlined many tasks, could also be applied to design. LLMs fine-tuned on labeled segments of existing Mario Bros. levels are able to generate levels which reflect descriptive prompts (e.g., &quot;few enemies,&quot; &quot;many pipes&quot;)<dt-cite key="mariogpt_gecco, mariogpt_neurips"></dt-cite>. Many tasks in architectural design, particularly in the conceptual phase, can be modeled at a similar level of abstraction as video game levels. Experimentation has already begun in AEC to take advantage of the same tile-based layouts and procedural content generation (PCG) techniques used in games.<dt-cite key="wfc_qd, wfc_fos"></dt-cite>.</p>
+<p>Crucially, to adapt an LLM-based approach to design in this way it is necessary to have a large corpus of labeled data. Quality-Diversity (QD)<dt-cite key="pugh_qd,cully_qd"></dt-cite> approach to generate a large collection of solutions to use as training data. QD produces high performing collections of solutions which span user-defined features, allowing users to define the design features they would like to explore, and then generate a bespoke dataset that spans those features.</p>
+<p>Designs generated by language model are created only through the learned statistical relationships, but in design it is necessary that constraints are followed. Rather than forcing the LLM to learn every constraint, we instead task it with creating a conceptual plan which is then handed to the Wave Function Collapse (WFC) algorithm<dt-cite key="wfc"></dt-cite>, a PCG approach based on constraint satisfaction<dt-cite key="wfc_constraint_solving"></dt-cite>.</p>
+<p>Rather than asking the language model to produce detailed layouts, we use it to generate higher level conceptual designs from natural language prompts, such as the distribution of buildings and green spaces. These designs are then processed by WFC to generate the detailed layout of modules which can realize the conceptual design. This method ensures that the final design not only resonates with the input provided by the designer but also rigorously complies with essential architectural constraints.</p>
+<div style="text-align: center;">
+  <br/>
+  <img class="b-lazy" src="assets/png/overview.png" style="width: 100%;"/>
+  <br/>
+  <figcaption style="text-align: left;">
+    <b>Algorithm flow of the proposed generative design approach, TileGPT</b>
+    <br/>
+    (1) A dataset of paired designs and attributes is generated with the MAP-Elites algorithm, which is used to (2) fine-tune a GPT model to produce designs with given attributes. (3) Given a natural language description, a simplified design with the described attributes is generated by the GPT model, and (4) given to a constraint satisfaction algorithm, which refines it into a detailed site plan.
+  </figcaption>
+</div>
+<p>The outlined system, dubbed TileGPT, demonstrates:</p>
+<ul>
+<li>
+<p>The integration of QD with PCG techniques to synthesize tailored labeled datasets of high performing solutions.</p>
+</li>
+<li>
+<p>The use of a fine-tuned LLM to interpret and implement design directives in natural language and apply them to a real-world generative design case.</p>
+</li>
+<li>
+<p>The application of constraint satisfaction to guarantee the validity of designs generated by an LLM.</p>
+</li>
+</ul>
+<p>This novel approach integrates QD, LLMs, and constraint satisfaction within the GD framework. This integration aims to enhance the accessibility of GD methods, reduce the technical barriers to their use, and provide more intuitive, interactive design manipulation capabilities through natural language inputs.</p>
+<h2>2 Background</h2>
+<h3>Wave Function Collapse</h3>
+<p>Wave Function Collapse (WFC) is a procedural content generation technique, popularized by Maxim Guman <dt-cite key="wfc"></dt-cite> for creating 2D and 3D content, in the form of a constraint satisfaction algorithm. It is similar to the Example-Based Model Synthesis <dt-cite key="model_synthesis"></dt-cite> method and is adept at generating non-tiling, self-similar structured data based on sparse input example. WFC is most commonly implemented for generating 2D bitmaps and 3D voxels but can also be applied to simpler 1D sequences and more complex topologies, like hex tiling, meshes, and non-uniform graphs<dt-cite key="townscraper"></dt-cite>.</p>
+<div style="text-align: center;">
+  <br/>
+  <img class="b-lazy" src="assets/png/wfc_in_out_tileset.png" style="width: 100%;"/>
+  <br/>
+  <figcaption style="text-align: left;">
+    <b>Layout Generations from Wave Function Collapse</b>
+    <br/>
+    Left: A sample design which adjacency rules are learned from. Right: A generation following those rules.
+  </figcaption>
+</div>
+<p>The algorithm works through iterations of a single cell collapse — assignment to a single fixed state — and neighborhood propagation — where surrounding tiles are constrained to compatible patterns with the collapsed cell. Cells are collapsed in order of minimum entropy, measured as the certainty of a specific outcome from the weightings of potential states, precisely defined as:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext><mi mathvariant="normal">S</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">n</mi><mtext> </mtext><mi mathvariant="normal">E</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">y</mi></mtext><mo>=</mo><mi>log</mi><mrow><mo fence="true">(</mo><mo>∑</mo><msub><mi>w</mi><mi>i</mi></msub><mo fence="true">)</mo></mrow><mo>−</mo><mfrac><mrow><mo>∑</mo><mo>(</mo><msub><mi>w</mi><mi>i</mi></msub><mo>×</mo><mi>log</mi><mo>(</mo><msub><mi>w</mi><mi>i</mi></msub><mo>)</mo><mo>)</mo></mrow><mrow><mo>∑</mo><msub><mi>w</mi><mi>i</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Shannon Entropy} = \log\left(\sum w_i\right) - \frac{\sum(w_i \times \log(w_i))}{\sum w_i}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.427em;"></span><span class="strut bottom" style="height:2.36301em;vertical-align:-0.93601em;"></span><span class="base displaystyle textstyle uncramped"><span class="text mord displaystyle textstyle uncramped"><span class="mord mathrm">S</span><span class="mord mathrm">h</span><span class="mord mathrm">a</span><span class="mord mathrm">n</span><span class="mord mathrm">n</span><span class="mord mathrm">o</span><span class="mord mathrm">n</span><span class="mord mspace"> </span><span class="mord mathrm">E</span><span class="mord mathrm">n</span><span class="mord mathrm">t</span><span class="mord mathrm">r</span><span class="mord mathrm">o</span><span class="mord mathrm">p</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span></span><span class="mrel">=</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="minner displaystyle textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="op-symbol large-op mop" style="top:-0.000004999999999977245em;">∑</span><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mbin">−</span><span class="mord reset-textstyle displaystyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.6859999999999999em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle cramped"><span class="mord textstyle cramped"><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">∑</span><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.677em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped"><span class="mord textstyle uncramped"><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">∑</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">×</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></span></p>
+<p>where <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><msub><mi>w</mi><mi>i</mi></msub></mrow></mrow><annotation encoding="application/x-tex">\mathcal{w_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.02691em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathit">i</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span> represents the weight of each potential state for a cell, with the weight reflecting the likelihood or frequency of a particular state occurring based on the adjacency constraints and the neighbors.</p>
+<p>The WFC methodology consists of a four-step process:</p>
+<ol>
+<li>Pattern extraction: Utilizing one or more self-similar input examples, WFC identifies cell adjacencies, which are used to form a domain of possible constrained states.</li>
+<li>Initialization and pre-constraint: The output is initialized with each cell represented as an array of potential states. Individual cells can be pre-constrained to a subset of these states. This is commonly used to enforce boundary conditions or enable controlled generated from an initial pattern.</li>
+<li>Cell collapse: The output cell with the lowest entropy value is selected for collapse. From the selected cell's possible states, a single, final state is chosen using a weighted random selection and all other potential states discarded. In the event more than one cell has the same lowest entropy value, the cell to collapse is chosen randomly from the candidates.</li>
+<li>Propagation: After a cell is collapsed, the solver iterates through the adjacent cells and removes all pattern states incompatible with collapsed cell.</li>
+</ol>
+<p>The solver repeats steps 3 and 4 until the output is fully collapsed, with each cell assigned to a single state, or until a contradiction arises, indicating that the solver cannot satisfy all constraints.</p>
+<h3>Quality-Diversity</h3>
+<p>Quality-Diversity (QD) approaches, like MAP-Elites<dt-cite key="mapelites,me_nature"></dt-cite>, search for high-performing solutions which cover a range of user-defined features. Generating diversity along features rather than only objectives makes QD well suited to the needs of generative design, as designers are often interested in values beyond objectives<dt-cite key="bradner2014parameters"></dt-cite>. QD has been studied in various design domains including aerodynamics<dt-cite key="gaier2017aerodynamic,produqd,sphen"></dt-cite>, game design<dt-cite key="alvarez2019empowering,gravina2019procedural,gonzalez2020finding"></dt-cite> and architecture<dt-cite key="galanos2021arch,wfc_qd,tdomino"></dt-cite>.</p>
+<p>QD produces a collection of solutions in a single run. The ability to produce numerous high-quality and varied solutions positions QD as an ideal tool for synthesizing datasets for machine learning. Collections of solutions generated through QD have been effectively used in creating surrogate models that predict performance<dt-cite key="sail_ecj,bopelites,dsme"></dt-cite>, building generative models to aid optimization<dt-cite key="dde, pms"></dt-cite> and exploration<dt-cite key="stepping,taxons,aurora"></dt-cite>, creating conditioned reinforcement learning policies<dt-cite key="faldor2023map"></dt-cite>, and fine-tuning language models to produce virtual creature body plans<dt-cite key="elm"></dt-cite>. In this work, we leverage the designs produced by MAP-Elites to fine-tune and condition a language model to produce designs based on text prompts.</p>
+<h3>Language Models</h3>
+<p>Large Language Models (LLMs) are powerful and versatile, able to learn from massive datasets for sequence modeling tasks such as generating text<dt-cite key="brown2020language"></dt-cite>, code<dt-cite key="GitHubCopilot,li2023starcoder"></dt-cite>, and even multimodal outputs such as images and robot states<dt-cite key="driess2023palm"></dt-cite>. These models leverage attention mechanisms<dt-cite key="vaswani2023attention"></dt-cite> to capture patterns in long-term sequences. Pretrained LLMs can be fine-tuned for diverse downstream sequence modeling tasks, reusing the model's parameters as a starting point and adding an additional layer trained from scratch. These tasks are not limited to just text but can be generalized to other sequences, such as tile-based layouts. Several works have explored this in the context of video games, including MarioGPT, a fine-tuned LLM for Mario level generation<dt-cite key="mariogpt_neurips,mariogpt_gecco"></dt-cite>. The authors showed that MarioGPT was able to generate coherent and playable levels whose layout could be guided by text.</p>
+<h2>3 Method</h2>
+<p>The TileGPT system, described in detail below, proceeds as follows:</p>
+<ol>
+<li><strong>Dataset Generation</strong>
+<ul>
+<li>A dataset is generated by using MAP-Elites to search the space of designs that can be generated by WFC.</li>
+<li>Each design in the dataset is paired with a text label such as 'many units' or 'little carbon sequestration' based on the features of the design.</li>
+</ul>
+</li>
+<li><strong>Model Training</strong>
+<ul>
+<li>A GPT model is fine-tuned using this dataset of designs, adapting it to produce layouts one tile at a time.</li>
+<li>Attribute labels are converted into numerical vectors via a text encoder and incorporated into the fine-tuning process through a cross attention layer.</li>
+</ul>
+</li>
+<li><strong>Layout Generation</strong>
+<ul>
+<li>The GPT model is provided with a natural language prompt corresponding to the desired attributes and generates a design at a low level of detail.</li>
+<li>These rough layouts are refined by the WFC algorithm, ensuring local constraint satisfaction and validity.</li>
+</ul>
+</li>
+</ol>
+<h2>3.1 Dataset Generation</h2>
+<h3>Synthesizing Data with MAP-Elites</h3>
+<p>WFC stands out for its ability to generate a wide array of unique designs from minimal initial examples, a potential we leverage for the generation of synthetic datasets. By conducting numerous iterations or 'rollouts' of the WFC algorithm, a large volume of data can easily synthesized.</p>
+<p>Despite its versatility, WFC-generated designs are not ideal samples, particularly when performance of the designs is a priority. In a domain like site design common issues with WFC include inefficient utilization of space, which could be better employed for buildings or landscaping. Furthermore, there's a tendency for the attributes of the designs to converge towards average values, leading to a dataset that lacks extremes and, as a result, limits the scope of what models can generate. The sparsity of varied and compelling examples in the dataset restricts the model's ability to produce innovative designs or to respond appropriately to text prompts.</p>
+<p>To overcome challenges related to the quality and uniformity in design generation, we use MAP-Elites for data synthesis. By adopting a diversity-based optimization strategy, we actively seek out high-quality solutions that encompass a broad spectrum of features. This method moves beyond simply sampling, ensuring the creation of a dataset that is both diverse and of high quality. The enriched dataset thus obtained is pivotal in training our model, enabling it to produce designs that are not only varied but also superior in quality. This refined approach significantly boosts the model's capability to generate diverse site layouts, enhancing the overall effectiveness of the design process.</p>
+<h3>Optimization of Designs with WFC</h3>
+<p>To use WFC in the optimization process, we must devise a way of effectively searching the space of WFC produced designs.The core strength of WFC is that it is capable of producing a large variety of solutions that follow a consistent style and set of constraints. This constrained expressivity makes it an appealing option for optimization, but searching the space of solutions through WFC is challenging. The variety in WFC comes from the chaotic elements of its generation process -- small changes in the initial conditions or early choices have dramatic consequences for the final result.</p>
+<p>A common lever to guide WFC is to adjust the probability of each tile being chosen when a cell is 'collapsed'. Macro level differences are possible to induce in this way, but it is impossible to replicate or preserve distinct tile patterns. Adjusting tile weights alone does not produce a suitable encoding for optimization. An encoding based on a tile weight genotype and fully collapsed tile phenotype is highly non-local<dt-cite key="locality"></dt-cite>-- a small change in the genotype produces a large and unexpected change in the phenotype, dooming any search algorithm to be little better than random.</p>
+<p>We can consider the mapping of genotype to phenotype through the intermediary of WFC as a <em>probabilistic</em> encoding, where each genome maps to a distribution of phenotypes. To create an encoding which is more local, and so more amenable to search, we must narrow this distribution while also making it heritable.</p>
+<p>At the start of the WFC algorithm we can fix a set of tiles, preserving a few existing parts of the parent design and allow the algorithm to generate the remainder. These fixed tiles can be included as part of the genome and passed on to child solutions. A genome composed of fixed tiles and tile weights is a more local encoding -- children resemble parents, and small changes in genotype typically produce small changes in phenotype. The more tiles which are fixed the narrow the distribution of possible mappings from genotype to phenotype.</p>
+<p>We can further instantiate individuals by including a random seed, ensuring that a given genome always produces the same phenotype. The resulting genotype is represented as a tuple comprising tile weights, fixed tiles, and a seed. It takes the form:</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext><mi mathvariant="normal">G</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">y</mi><mi mathvariant="normal">p</mi><mi mathvariant="normal">e</mi></mtext><mo>=</mo><mo>(</mo><msub><mrow><mi mathvariant="script">T</mi></mrow><mrow><mtext><mi mathvariant="normal">w</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub><mo separator="true">,</mo><msub><mrow><mi mathvariant="script">T</mi></mrow><mrow><mtext><mi mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mtext></mrow></msub><mo separator="true">,</mo><mtext><mi mathvariant="normal">S</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mtext><mo>)</mo></mrow><annotation encoding="application/x-tex">\text{Genotype} = (\mathcal{T}_{\text{weight}}, \mathcal{T}_{\text{fixed}}, \text{Seed})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="base textstyle uncramped"><span class="text mord textstyle uncramped"><span class="mord mathrm">G</span><span class="mord mathrm">e</span><span class="mord mathrm">n</span><span class="mord mathrm">o</span><span class="mord mathrm">t</span><span class="mord mathrm" style="margin-right:0.01389em;">y</span><span class="mord mathrm">p</span><span class="mord mathrm">e</span></span><span class="mrel">=</span><span class="mopen">(</span><span class=""><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">e</span><span class="mord mathrm">i</span><span class="mord mathrm" style="margin-right:0.01389em;">g</span><span class="mord mathrm">h</span><span class="mord mathrm">t</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class=""><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm">i</span><span class="mord mathrm">x</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="text mord textstyle uncramped"><span class="mord mathrm">S</span><span class="mord mathrm">e</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span></span><span class="mclose">)</span></span></span></span></p>
+<p>Where, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mrow><mi mathvariant="script">T</mi></mrow><mrow><mtext><mi mathvariant="normal">w</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub></mrow><annotation encoding="application/x-tex">\mathcal{T}_{\text{weight}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="base textstyle uncramped"><span class=""><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">e</span><span class="mord mathrm">i</span><span class="mord mathrm" style="margin-right:0.01389em;">g</span><span class="mord mathrm">h</span><span class="mord mathrm">t</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> is a vector of tile weights, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mrow><mi mathvariant="script">T</mi></mrow><mrow><mtext><mi mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mtext></mrow></msub></mrow><annotation encoding="application/x-tex">\mathcal{T}_{\text{fixed}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class=""><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm">i</span><span class="mord mathrm">x</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> is a list of tuples with each tuple representing a tile type and its position in the grid.</p>
+<p>To search this space, we apply a mutation operator, which involves the following steps:</p>
+<ol>
+<li>The <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mrow><mi mathvariant="script">T</mi></mrow><mrow><mtext><mi mathvariant="normal">w</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">h</mi><mi mathvariant="normal">t</mi></mtext></mrow></msub></mrow><annotation encoding="application/x-tex">\mathcal{T}_{\text{weight}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="base textstyle uncramped"><span class=""><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm" style="margin-right:0.01389em;">w</span><span class="mord mathrm">e</span><span class="mord mathrm">i</span><span class="mord mathrm" style="margin-right:0.01389em;">g</span><span class="mord mathrm">h</span><span class="mord mathrm">t</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> vector is modified by the addition of Gaussian noise, adjusting the weights either upward or downward.</li>
+<li>Tiles are added or removed from the <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mrow><mi mathvariant="script">T</mi></mrow><mrow><mtext><mi mathvariant="normal">f</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">x</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mtext></mrow></msub></mrow><annotation encoding="application/x-tex">\mathcal{T}_{\text{fixed}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class=""><span class="mord textstyle uncramped"><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="text mord scriptstyle cramped"><span class="mord mathrm" style="margin-right:0.07778em;">f</span><span class="mord mathrm">i</span><span class="mord mathrm">x</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> list.</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext><mi mathvariant="normal">S</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">d</mi></mtext></mrow><annotation encoding="application/x-tex">\text{Seed}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="text mord textstyle uncramped"><span class="mord mathrm">S</span><span class="mord mathrm">e</span><span class="mord mathrm">e</span><span class="mord mathrm">d</span></span></span></span></span> is reset to a new random integer.</li>
+</ol>
+<p>At each generation an equal number of individuals are chosen to have tiles removed and added. Tiles are chosen to be added or removed randomly, and the number added or removed drawn from a uniform distribution between 1 and 4 tiles.</p>
+<p>Fixed tiles are added from the phenotype of the parent solution. Adding tiles in this way not only allows children to inherit the  same structures, it ensures that the constellation of fixed tiles is a valid one -- we know there must be at least one valid phenotype to be found by WFC with that set of tiles. The process of fixed tile mutation is illustrated below:</p>
+<div style="text-align: center;">
+  <img src="assets/png/wfc_opt.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption>Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.</figcaption>
+</div>
+<p>The iterative adding and removing of tiles allows a search algorithm to purposefully search through the space of designs generated by WFC -- designs which are guaranteed to follow the guidelines and requirements of the designer.</p>
+<h3>Dataset Preprocessing</h3>
+<p>The number of potential tiles, considering their rotations and reflections, can easily reach into the hundreds -- and each tile comes with its own unique set of adjacency rules. Training a GPT model to predict tokens at this level of granularity distracts from its central objective: facilitating global-level optimization and exploration.</p>
+<p>Our approach positions the GPT model as a strategic director in the design process. Its role is not to micromanage the minutiae of tile adjacencies but to guide overarching design decisions. This perspective aligns the model’s strengths with the demands of high-level conceptual design, and steers clear of the intricacies of individual tile relationships.</p>
+<p>To streamline this process, we categorize the full tile set into a smaller set of distinct functional groups, illustrated below. This categorization substantially reduces the complexity the GPT model has to manage.</p>
+<div style="text-align: center;">
+  <img src="assets/png/tileset_reduced.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption>Possible WFC cell states and their simplifications for tokenization. Designs are evaluated using the WFC cell states, but generated using the reduced set of LLM cell states.</figcaption>
+</div>
+<p>Designs are represented as a grid of tiles, but to convert these designs into tokens we transform each into one of these functional categories. Subsequently, each category is represented by a unique character (e.g., 'A', 'B', 'C'). We then flatten this grid of characters into a vector format to fit the standard sequence completion training paradigm of GPT models. Each site’s features -- defined by their coordinates in the MAP-Elites grid -- are paired with their respective design. These are then translated into high-level natural language descriptions during training (e.g., &quot;few/some/many parks&quot;).</p>
+<h2>3.2 Language Model Training</h2>
+<p>A causal language model is fine-tuned to learn &quot;next tile prediction&quot;, analogous to the &quot;next token prediction&quot; objective for which most causal language models are optimized. The model learns to generate a design by predicting a single tile based on a sequence of previous tiles. Previous work has demonstrated that by fine-tuning LLMs for tile generation, they can generate new playable levels in Sokoban<dt-cite key="sokoban_gpt"></dt-cite> and Mario Bros<dt-cite key="mariogpt_neurips"></dt-cite>. Similar to<dt-cite key="mariogpt_neurips"></dt-cite>, we choose a distilled version of GPT-2 (DistilGPT2)<dt-cite key="sanh2020distilbert"></dt-cite> as our base LLM to fine-tune, with additional cross-attention weights used for prompt conditioning. To incorporate these prompts, we utilize a frozen text encoder (BART)<dt-cite key="lewis2019bart"></dt-cite> to embed the prompts as a vector of floats. These vectors are averaged and used in the cross-attention weights in combination with the encoded tile sequence. All previous tiles are used as context for predicting the next tile.</p>
+<div style="text-align: center;">
+  <img src="assets/png/tilegpt.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption>TileGPT architecture. Text prompts are encoded through a frozen text encoder and are combined with previous tiles in GPT2's cross attention mechanism.</figcaption>
+</div>
+<p>Because we use DistilGPT2, the model in TileGPT is relatively small and utilizes only 96 million trainable parameters. This allows for training efficiently on a single GPU. We train TileGPT for 500,000 steps, sampling 16 random designs uniformly at each training iteration and optimize weights using the Adam optimizer<dt-cite key="kingma2017adam"></dt-cite>.</p>
+<h2>3.3 Layout Generation</h2>
+<p>To use the model for design generation, we follow a series of steps, as depicted in the figure. In this integrated process, the GPT model lays the foundation for the overarching design based on natural language prompts, while WFC ensures its practical feasibility and completeness.</p>
+<div style="text-align: center;">
+  <img src="assets/png/wfc_refinement.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption> Layout Generation in TileGPT. (1) A site description is provided to the model, which (2) produces a high level layout. (3) This layout is converted into preconstraints for the WFC algorithm, which (4) generates detailed geometry. The 2D geometry can be then be extruded (5) into a form suitable for use with commercial design software.</figcaption>
+</div>
+<h4>Step 1: Design Initiation via Prompt</h4>
+<p>The process begins with the input of a design prompt. This prompt incorporates the natural language parameters our model has been trained on. The system inserts randomly sampled prompts for those not provided. These prompts are converted to a vector and used as a constant input to the cross-attention layer -- laying the groundwork for the subsequent design generation.</p>
+<h4>Step 2: LLM-Driven Site Design Formation</h4>
+<p>Following the initial prompt, the GPT model, steered by the textual input, engages in an iterative process of selecting tiles from a simplified set of categories. These selections form a high-level blueprint, outlining the fundamental structure of the design.</p>
+<h4>Step 3: Translation to Permissible Tile Sets</h4>
+<p>The basic tile types delineated by the GPT model are then transformed into a set of allowable tiles. For instance, a 'building core' might be represented in every possible orientation. This step refines the blueprint, preparing it for more detailed procedural generation.</p>
+<h4>Step 4: Detailed Design Completion through WFC</h4>
+<p>The refined blueprint is subsequently transferred to the WFC. WFC selects from a comprehensive tile-set to add intricate details, from orientations to the placement of windows and interior walls.</p>
+<h4>Step 5: Finalizing a Valid Design</h4>
+<p>Upon completion of WFC, we obtain a single, valid design. This design is not only complete in its structure but also readily transferable to Building Information Modeling (BIM) software for detailed editing and analysis.</p>
+<p>Importantly, this procedure is not rigid. Users have the flexibility to modify the design iteratively. For example, a portion of the site can be erased and re-generated by inputting an alternative text prompt, directing the system to refill the area with a design that incorporates specific desired features. This iterative capability enhances the adaptability and user-interactivity of our design generation</p>
+<h2>4 Experiments</h2>
+<h3>4.1 Setup</h3>
+<p>We test our system in a real-world design scenario: the design of apartment complex layouts for prefabricated housing. As part of an applied research collaboration with the modular construction company <a href="https://factoryos.com/">FactoryOS</a>, we derived our modules from their real-world catalog of prefabricated apartment units and worked together to test the WFC algorithm for early stage design.</p>
+<p>Adjacency rules for our WFC algorithm are derived from a small hand designed set of designs. Each generated site layout consists of a 25x15 grid, totaling 375 tiles. These tiles represent various elements: livable building component modules, utility elements like corridors and cores, more or less intensive landscaping such as trees or lawn, and unused spaces and streets. Site borders are fixed, surrounded by street and landscaping tiles.</p>
+<p>Sites are evaluated on five metrics: number of parks, largest park size, total units, sequestered carbon, and privacy, each illustrated in Figure 6. A site's performance is gauged by the proportion of non-empty tiles. Each site is labeled with a text prompt that mirrors these features, divided into low, medium, and high values, for a total of 243 (<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><msup><mn mathvariant="script">3</mn><mn mathvariant="script">5</mn></msup></mrow></mrow><annotation encoding="application/x-tex">\mathcal{3^5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.664392em;"></span><span class="strut bottom" style="height:0.858832em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord"><span class="mord mathcal">3</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathcal">5</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span>) possible text labels.</p>
+<div style="text-align: center;">
+  <img src="assets/png/design_metrics_03.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption> Features explored with MAP-Elites. Layouts which span these features are generated to form a dataset for training. </figcaption>
+</div>
+<p>For clarity we will refer to these metrics as `features' and an instance of these features as an attribute (privary vs. low privacy).</p>
+<h3>4.2 Experiment Objectives and Methodology</h3>
+<p>Experiments are designed to evaluate our system, a language model fine-tuned on a synthetic dataset, in generating designs that are then refined to meet specific constraints and criteria. We focus on two key aspects:</p>
+<ol>
+<li><strong>Validity:</strong> Does our system reliably produce valid designs that can be transformed into complete layouts by WFC?</li>
+<li><strong>Fidelity:</strong> How well do designs align with the given prompts?</li>
+</ol>
+<p>Where a layout in 'complete' if is filled with a set of tiles that obey all adjacency constraints, and a design is considered to 'align' with the prompt if the attribute value is in the ranges defined during training for each text prompt (see Figure \ref{fig:data_dist} for demarcations). We evaluate our model with the following exhaustive approach:</p>
+<ul>
+<li>We prompt the model to produce 100 designs for every combination of prompts, amounting to 243 prompts.</li>
+</ul>
+<!-- \footnote{This amounts to 8100 designs for each attribute. Prompts are given in the form "low/med/high number of parks, low/med/high total units, ..., low/med/high largest park size" for a total of $3^5$=243 prompts. 1 attribute (e.g., low number of parks) is tested 81 times (243/3) across 1 exhaustive set of prompts}. -->
+<ul>
+<li>
+<p>Validity is measured by the WFC solver's ability to generate a complete layout from each design.</p>
+</li>
+<li>
+<p>Fidelity is measured for each valid layout, with fidelity achieved when the attributes match those specified in the prompt, each attribute evaluated separately.</p>
+</li>
+</ul>
+<p>We investigate the impact of employing a QD approach in the generation of the synthetic dataset. Two datasets are used to produce models, one generated with MAP-Elites and the other by sampling WFC, each with a dataset contains a total of 50,000 designs each.</p>
+<h3>4.3 Comparative Analysis of Datasets</h3>
+<p>It is informative to first examine the differences in the datasets generated by sampling and by MAP-Elites. Analyzing the composition of these datasets provides a clearer understanding of the differences in the resulting models.</p>
+<p>A key aspect of producing expressive models is ensuring a diverse range of features in the dataset. Ideally, this would manifest as a uniform distribution across all features. While a completely filled MAP-Elites archive would produce this ideal scenario, in practice there are inherent trade-offs in features, and not every combination can be produced, so creating some imbalance in unavoidable.</p>
+<p>The distribution of feature values in the designs of each dataset is shown in Figure \ref{fig:data_dist}. To underline the difference in uniformity, we also calculate the Gini coefficient, a measure of inequality , of the number of samples in each bin (Gini = 0 is uniform, Gini = 1 means all samples are in a single bin).</p>
+<div style="text-align: center;">
+  <img src="assets/png/qd_vs_wfc.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption> Distribution of feature and performance values of in datasets of designs generated with MAP-Elites and Sampling. Gini coefficient of number of samples in each bin is provided to aid interpretation of distrbutions. Demarcation of the qualitative labels used to train the model (e.g. low, mid, high number of units) show in green. </figcaption>
+</div>
+<p>This analysis reveals that MAP-Elites produces a far more uniformly distributed dataset compared with sampling. More than half of all samples generated by sampling WFC are in the lower tenth of sequestered carbon and large parks -- randomly generated designs rarely yield large parks, which are crucial for substantial carbon sequestration. Random sampling simply cannot reliably cover the extremes of some feature distributions.</p>
+<p>In addition we examine the distribution of performance values (Figure \ref{fig:data_dist}, bottom right). The datasets generated by sampling alone tend to follow a normal distribution around a low mean. In contrast, MAP-Elites actively seeks out high-performing designs. This distinction underscores the effectiveness of targeted search methods like MAP-Elites in creating datasets that not only span a broad feature range but also include high-performance design options, which are less likely to emerge through random generation.</p>
+<h3>4.4 Model Performance</h3>
+<p>The performance of each model, including the differences between them, is shown in Figure \ref{fig:model_perf}. The model trained with MAP-Elites synthesized dataset demonstrates a higher level of fidelity to the design prompts across nearly all categories. Though the category of 'total units' shows comparatively weaker performance, this can be attributed to the model's limited control over this aspect; while it can outline the building design, the actual generation of walls—and consequently the number of units—is determined by the WFC solver and randomness of the seed.</p>
+<div style="text-align: center;">
+  <img src="assets/png/model_performance.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <figcaption>   Model performance when trained on a MAP-Elites synthesized dataset vs. one obtained by sampling. Each cell represents the mean of a single prompt (e.g. "High number of parks") in combination with every other prompt (varied levels of units, privacy, carbon, park size). \textit{Validity}: how often a design with this prompted feature generates a valid design. \textit{Fidelity}: how many valid solutions follow the prompt. </figcaption>
+</div>
+<p>The model trained on the dataset generated by WFC exhibits uneven performance, mirroring the inconsistencies in its training dataset. The model struggles to generate designs with high carbon sequestration, large parks, or low privacy solutions, all of which are underrepresented in the sampled dataset. For attributes with abundant data, such as low carbon sequestration or number of parks, the model performs well. That the sampled dataset is lower-performing, with a lot of empty tiles, translates into fewer and smaller parks, and fewer units. This alone may be enough to bias the generation toward these attributes, regardless of the prompt.</p>
+<p>The validity of designs generated by the WFC-trained model is lower across all categories, particularly in the 'high' level categories where the fidelity is also lacking. This trend can be attributed to the model's limited exposure to the cross-attention signal of rarer prompts in the WFC dataset, leading to challenges in handling less predictable inputs and consequently producing invalid designs.</p>
+<p>The results underscore that the caliber and variety of the training data are key to successful model training. In particular this emphasizes the superiority of QD methods in creating rich and varied datasets, proving their effectiveness for sophisticated, real-world design problems where random sampling is not sufficient.</p>
+<h2>5 Discussion</h2>
+<p>This work introduces a novel approach to generative design, addressing the challenges of data availability, ease of use, and constraint compliance. Our method combines optimization techniques, constraint satisfaction mechanisms, and the generative capabilities of language models to remedy stubborn difficulties intrinsic to GD.</p>
+<p>Building on existing generative design methods, our approach transforms their main weakness—the overwhelming volume of results—into a key advantage. Instead of requiring users to sift through thousands of generative design outcomes, these results become raw material to train a model to help them explore the possibilities of design. This integration allows users direct access to the exploratory benefits of evolutionary AI and the precision of constraint-satisfying symbolic AI, all through the user-friendly interface of a generative AI language model.</p>
+<p>Our current system was built on simple tile representations, and while many layout problems in architecture can be encoded in this way, it is an obvious limitation to the technique's versatility. Alternative tokenization schemes would enable the generation of different geometries, and many such approaches are already gaining traction for manufacturing design<dt-cite key="xu2022skexgen,xu2023hierarchical,jayaraman2022solidgen"></dt-cite>.</p>
+<p>The conditioning of the model on features is currently based on linear ranges of user-defined features; however, future implementations could utilize non-linear regions or integrate more descriptive natural language labels for more intuitive exploration. Approaches like Quality-Diversity with AI Feedback<dt-cite key="qdaif"></dt-cite>, especially combined with multimodal models which could automatically label site plans with more qualitative attributes, could further enhance the system’s capability for generating intuitive and meaningful design features.</p>
+<p>Although not explicitly evaluated in this paper, the system is designed to be interactive. Users can modify specific areas of a site layout according to their prompts, enabling high-level exploration and alteration of site plans. Such prompt-guided changes can act as high-level mutation operators, as shown in MarioGPT<dt-cite key="mariogpt_neurips"></dt-cite>, offering a novel avenue for interactive and dynamic design modification.</p>
+<p>Beyond the specifics of the presented system, this work represents a broader approach for applying generative models in engineering and architecture. This approach rests on three pillars: diversity-based optimization for generating high-quality datasets, the use of large models for generation and interaction, and constraint satisfaction algorithms that take the final step in generation to ensuring the valid designs. By weaving a generative model into the fabric of the design process, we mitigate the need for extensive post-hoc analysis typically associated with generative design. Instead, we pave a path for purposeful exploration, allowing for both controlled directives and serendipitous design outcomes.</p>
+</dt-article>
+<dt-appendix>
+<h2>Acknowledgements</h2>
+<p>We would like to thank Douglas Eck, Geoffrey Hinton, Anja Austermann, Jeff Dean, Luke Metz, Ben Poole, Jean-Baptiste Mouret, Michiel Adriaan Unico Bacchiani, Heiga Zen, and Alexander M. Lamb for their thoughtful feedback.</p>
+<p>The experiments in this work were performed on 96-core CPU Linux virtual machines provided by <a href="https://cloud.google.com/">Google Cloud Platform</a>.</p>
+<p>This article was prepared using the <a href="https://distill.pub">Distill</a> <a href="https://github.com/distillpub/template">template</a>. Interactive demos were built with <a href="https://p5js.org">p5.js</a>.</p>
+<p>Any errors here are our own and do not reflect opinions of our proofreaders and colleagues. If you see mistakes or want to suggest changes, feel free to contribute feedback by participating in the discussion <a href="https://github.com/weightagnostic/weightagnostic.github.io/issues">forum</a> for this article.</p>
+<h3 id="citation">Citation</h3>
+<p>For attribution in academic contexts, please cite this work as</p>
+<pre class="citation short">Adam Gaier and David Ha, "Weight Agnostic Neural Networks", 2019.</pre>
+<p>BibTeX citation</p>
+<pre class="citation long">@article{wann2019,
+  author = {Adam Gaier and David Ha},
+  title  = {Weight Agnostic Neural Networks},
+  eprint = {arXiv:1906.04358},
+  url    = {https://weightagnostic.github.io},
+  note   = "\url{https://weightagnostic.github.io}",
+  year   = {2019}
+}</pre>
+<h2>Open Source Code</h2>
+<p>We release a general purpose tool, not only to facilitate reproduction, but also for further research in this direction. Our NumPy <dt-cite key="van2011numpy"></dt-cite> implementation of NEAT <dt-cite key="neat"></dt-cite> supports MPI <dt-cite key="mpi_library"></dt-cite> and OpenAI Gym <dt-cite key="openai_gym"></dt-cite> environments.</p>
+<p>Please see our <a href="https://github.com/google/brain-tokyo-workshop/tree/master/WANNRelease">repo</a> for details about the code release.</p>
+<h2>Reuse</h2>
+<p>Diagrams and text are licensed under Creative Commons Attribution <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> with the <a href="https://github.com/weightagnostic/weightagnostic.github.io">source available on GitHub</a>, unless noted otherwise. The figures that have been reused from other sources don’t fall under this license and can be recognized by the citations in their caption.</p>
+<h2>Supplementary Materials</h2>
+<p>For further discussion about the implementation details of the experiments, and results for multiple independent runs of the search algorithms, please refer to the Supplementary Materials section in the <a href="https://arxiv.org/abs/1906.04358">pdf</a> version of this article.</p>
+</dt-appendix>
+</dt-appendix>
+</body>
+<script type="text/bibliography">
+% --- Generative Design
+
+% Interview study on use of optimization in design
+- @inproceedings{bradner2014parameters,
+  title={Parameters tell the design story: ideation and abstraction in design optimization},
+  author={Bradner, Erin and Iorio, Francesco and Davis, Mark and others},
+  booktitle={Proceedings of the symposium on simulation for architecture \& urban design},
+  volume={26},
+  pages={1--8},
+  year={2014},
+  organization={Citeseer}
+}
+    
+% Design exploration using generative tools
+- @article{holzer2007parametric,
+    title={Parametric design and structural optimisation for early design exploration},
+    author={Holzer, Dominik and Hough, Richard and Burry, Mark},
+    journal={International Journal of Architectural Computing},
+    volume={5},
+    number={4},
+    pages={625--643},
+    year={2007},
+    publisher={SAGE Publications Sage UK: London, England}  }    
+
+% --- in Architecture
+% optimizing office layouts
+- @inproceedings{nagy2017project,
+    title={Project Discover: An application of generative design for architectural space planning},
+    author={Nagy, Danil and Lau, Damon and Locke, John and Stoddart, Jim and Villaggi, Lorenzo and Wang, Ray and Zhao, Dale and Benjamin, David},
+    booktitle={Proceedings of the Symposium on Simulation for Architecture and Urban Design},
+    pages={7},
+    year={2017},
+    organization={Society for Computer Simulation International}
+    }
+
+%
+- @article{nagy2017beyond,
+    title={Beyond heuristics: a novel design space model for generative space planning in architecture},
+    author={Nagy, Danil and Villaggi, Lorenzo and Zhao, Dale and Benjamin, David},
+    year={2017},
+    publisher={CUMINCAD}
+    }
+    
+%
+- @inproceedings{nagy2018generative,
+    title={Generative urban design: Integration of financial and energy design goals in a generative design workflow for residential neighborhood layout},
+    author={Nagy, D and Villaggi, L and Benjamin, D},
+    booktitle={Symposium on Simulation for Architecture and Urban Design},
+    year={2018}
+    }
+
+@inproceedings{villaggi2018generative,
+    author    = {Villaggi, L. and Nagy, D. and Stoddart, J.},
+    title     = {Generative Design for Architectural Space Planning},
+    booktitle = {Autodesk University},
+    year      = {2018},
+    month     = {November},
+    address   = {Las Vegas}
+}
+
+@inproceedings{wfc_fos,
+    author    = {Kaylor, N. and Villaggi, L. and Zhao, D.},
+    title     = {From Prototype to Platform: Delivering New Design Capabilities on Autodesk Forma},
+    booktitle = {Autodesk University},
+    year      = {2023},
+    month     = {November},
+    address   = {Las Vegas}
+}
+
+
+% Macleamy Curve 
+% design changes are more cost-effective and have a greater impact when made early in the project timeline,
+
+% First sighting
+@article{paulson1976designing,
+    author  = {Paulson, B. C.},
+    title   = {Designing to Reduce Construction Costs},
+    journal = {Journal of the Construction Division},
+    year    = {1976},
+    volume  = {102},
+    number  = {4},
+    pages   = {587--592}
+}
+
+% popularization
+@techreport{macleamy2004curve,
+    author       = {The Construction Users Roundtable},
+    title        = {Collaboration, Integrated Information, and the Project Lifecycle in Building Design, Construction and Operation},
+    year         = {2004},
+    number       = {WP-1202},
+    month        = {August},
+    note         = {Introduction of the "MacLeamy Curve"}
+}
+
+% -- WFC
+@misc{wfc,
+    author = {Gumin, M.},
+    title = {Wave Function Collapse},
+    year = {2016},
+    howpublished = {\url{https://github.com/mxgmn/WaveFunctionCollapse}},
+    note = {Accessed: March 25, 2023}
+}
+
+@inproceedings{model_synthesis,
+    author = {Merrell, P.},
+    title = {Example-Based Model Synthesis},
+    booktitle = {Symposium on Interactive 3D Graphics (i3D)},
+    year = {2007}
+}
+
+@inproceedings{wfc_constraint_solving,
+  title={WaveFunctionCollapse is constraint solving in the wild},
+  author={Karth, Isaac and Smith, Adam M},
+  booktitle={Proceedings of the 12th International Conference on the Foundations of Digital Games},
+  pages={1--10},
+  year={2017}
+}
+
+% Townscraper
+@misc{townscraper,
+  author = {Thompson, T.},
+  title = {How Townscaper Works: A Story Four Games in the Making},
+  year = {2022},
+  howpublished = {\url{https://www.gamedeveloper.com/blogs/how-townscaper-works-a-story-four-games-in-the-making}},
+  note = {Accessed: Jan 30, 2024}
+}
+
+
+
+% --- CAD with Large Models --- %
+@article{xu2023hierarchical,
+  title={Hierarchical neural coding for controllable cad model generation},
+  author={Xu, Xiang and Jayaraman, Pradeep Kumar and Lambourne, Joseph G and Willis, Karl DD and Furukawa, Yasutaka},
+  journal={arXiv preprint arXiv:2307.00149},
+  year={2023}
+}
+
+@article{xu2022skexgen,
+  title={SkexGen: Autoregressive generation of CAD construction sequences with disentangled codebooks},
+  author={Xu, Xiang and Willis, Karl DD and Lambourne, Joseph G and Cheng, Chin-Yi and Jayaraman, Pradeep Kumar and Furukawa, Yasutaka},
+  journal={arXiv preprint arXiv:2207.04632},
+  year={2022}
+}
+
+@article{jayaraman2022solidgen,
+  title={SolidGen: An Autoregressive Model for Direct B-rep Synthesis},
+  author={Jayaraman, Pradeep Kumar and Lambourne, Joseph George and Desai, Nishkrit and Willis, Karl and Sanghi, Aditya and Morris, Nigel JW},
+  journal={Transactions on Machine Learning Research},
+  year={2022}
+}
+% -- MarioGPT
+
+@inproceedings{mariogpt_gecco,
+  title={Prompt-guided level generation},
+  author={Sudhakaran, Shyam and Gonz{\'a}lez-Duque, Miguel and Glanois, Claire and Freiberger, Matthias and Najarro, Elias and Risi, Sebastian},
+  booktitle={Proceedings of the Companion Conference on Genetic and Evolutionary Computation},
+  pages={179--182},
+  year={2023}
+}
+
+@article{mariogpt_neurips,
+  title={MarioGPT: open-ended text2level generation through large language models (2023)},
+  author={Sudhakaran, S and Gonz{\'a}lez-Duque, M and Glanois, C and Freiberger, M and Najarro, E and Risi, S},
+  journal={arXiv preprint arxiv:2302.05981}
+}
+
+% Sokoban
+@inproceedings{sokoban_gpt,
+  title={Level Generation Through Large Language Models},
+  author={Todd, Graham and Earle, Sam and Nasir, Muhammad Umair and Green, Michael Cerny and Togelius, Julian},
+  booktitle={Proceedings of the 18th International Conference on the Foundations of Digital Games},
+  pages={1--8},
+  year={2023}
+}
+
+% -- Autoencoders
+
+% VAE1
+- @inproceedings{vae,
+    author    = {Diederik P. Kingma and Max Welling},
+    editor    = {Yoshua Bengio and Yann LeCun},
+    title     = {Auto-Encoding Variational {Bayes}},
+    booktitle = {International Conference on Learning Representation ({ICLR})},
+    year      = {2014},
+    }
+
+% VAE2
+- @inproceedings{rezende2014stochastic,
+    title={Stochastic backpropagation and approximate inference in deep generative models},
+    author={Rezende, Danilo Jimenez and Mohamed, Shakir and Wierstra, Daan},
+    booktitle={International conference on machine learning},
+    pages={1278--1286},
+    year={2014},
+    organization={PMLR}
+    }
+
+% AE
+- @article{ae,
+    title={Reducing the dimensionality of data with neural networks},
+    author={Hinton, Geoffrey E. and Salakhutdinov, Ruslan R.},
+    journal={science},
+    volume={313},
+    number={5786},
+    pages={504--507},
+    year={2006},
+    publisher={American Association for the Advancement of Science}
+    }
+
+% attention + transformers
+@misc{vaswani2023attention,
+      title={Attention Is All You Need}, 
+      author={Ashish Vaswani and Noam Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and Lukasz Kaiser and Illia Polosukhin},
+      year={2023},
+      eprint={1706.03762},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+@misc{lehman2022evolution,
+      title={Evolution through Large Models}, 
+      author={Joel Lehman and Jonathan Gordon and Shawn Jain and Kamal Ndousse and Cathy Yeh and Kenneth O. Stanley},
+      year={2022},
+      eprint={2206.08896},
+      archivePrefix={arXiv},
+      primaryClass={cs.NE}
+}
+@misc{sanh2020distilbert,
+      title={DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter}, 
+      author={Victor Sanh and Lysandre Debut and Julien Chaumond and Thomas Wolf},
+      year={2020},
+      eprint={1910.01108},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+@misc{lewis2019bart,
+      title={BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension}, 
+      author={Mike Lewis and Yinhan Liu and Naman Goyal and Marjan Ghazvininejad and Abdelrahman Mohamed and Omer Levy and Ves Stoyanov and Luke Zettlemoyer},
+      year={2019},
+      eprint={1910.13461},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+% LLMS
+
+% versatile, generating text, (GPT3)
+@article{brown2020language,
+  title={Language models are few-shot learners},
+  author={Brown, Tom and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared D and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and others},
+  journal={Advances in neural information processing systems},
+  volume={33},
+  pages={1877--1901},
+  year={2020}
+}
+
+@misc{GitHubCopilot,
+  author = {GitHub},
+  title = {GitHub Copilot: Your AI pair programmer},
+  year = {2021},
+  howpublished = {\url{https://github.com/features/copilot}},
+  note = {Accessed: 2024-01-30}
+}
+
+@article{li2023starcoder,
+  title={StarCoder: may the source be with you!},
+  author={Li, Raymond and Allal, Loubna Ben and Zi, Yangtian and Muennighoff, Niklas and Kocetkov, Denis and Mou, Chenghao and Marone, Marc and Akiki, Christopher and Li, Jia and Chim, Jenny and others},
+  journal={arXiv preprint arXiv:2305.06161},
+  year={2023}
+}
+
+% multimodal and robotics
+@article{driess2023palm,
+  title={Palm-e: An embodied multimodal language model},
+  author={Driess, Danny and Xia, Fei and Sajjadi, Mehdi SM and Lynch, Corey and Chowdhery, Aakanksha and Ichter, Brian and Wahid, Ayzaan and Tompson, Jonathan and Vuong, Quan and Yu, Tianhe and others},
+  journal={arXiv preprint arXiv:2303.03378},
+  year={2023}
+}
+
+% Optimizers
+
+@misc{kingma2017adam,
+      title={Adam: A Method for Stochastic Optimization}, 
+      author={Diederik P. Kingma and Jimmy Ba},
+      year={2017},
+      eprint={1412.6980},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+% --- General Cites
+
+% - MAP-Elites
+- @article{mapelites,
+    title={Illuminating search spaces by mapping elites},
+    author={Mouret, Jean-Baptiste and Clune, Jeff},
+    journal={arXiv preprint arXiv:1504.04909},
+    year={2015}
+    }
+
+- @article{me_nature,
+    title={Robots that can adapt like animals},
+    author={Cully, Antoine and Clune, Jeff and Tarapore, Danesh and Mouret, Jean-Baptiste},
+    journal={Nature},
+    volume={521},
+    number={7553},
+    pages={503--507},
+    year={2015},
+    publisher={Nature Publishing Group}
+    }
+
+% - Quality-Diversity
+- @article{cully_qd,
+    title={Quality and diversity optimization: A unifying modular framework},
+    author={Cully, Antoine and Demiris, Yiannis},
+    journal={IEEE Transactions on Evolutionary Computation},
+    volume={22},
+    number={2},
+    pages={245--259},
+    year={2017},
+    publisher={IEEE}
+    }
+
+- @article{pugh_qd,
+    title={Quality diversity: A new frontier for evolutionary computation},
+    author={Pugh, Justin K and Soros, Lisa B and Stanley, Kenneth O},
+    journal={Frontiers in Robotics and AI},
+    volume={3},
+    pages={40},
+    year={2016},
+    publisher={Frontiers}
+    }
+
+
+% - QD + GD Cites
+
+% --- Architecture
+@inproceedings{wfc_qd,
+  title={Harnessing Game-Inspired Content Creation for Intuitive Generative Design and Optimization},
+  author={Villaggi, Lorenzo and Stoddart, James and Gaier, Adam},
+  booktitle={Design Modelling Symposium Berlin},
+  pages={149--160},
+  year={2022},
+  organization={Springer}
+}
+
+@inproceedings{tdomino,
+  title={T-DominO: Exploring Multiple Criteria with Quality-Diversity and the Tournament Dominance Objective},
+  author={Gaier, Adam and Stoddart, James and Villaggi, Lorenzo and Bentley, Peter J},
+  booktitle={International Conference on Parallel Problem Solving from Nature},
+  pages={263--277},
+  year={2022},
+  organization={Springer}
+}
+
+@inproceedings{galanos2021arch,
+  title={ARCH-Elites: Quality-diversity for urban design},
+  author={Galanos, Theodoros and Liapis, Antonios and Yannakakis, Georgios N and Koenig, Reinhard},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+  pages={313--314},
+  year={2021}
+}
+
+% --- Aerodynamics
+@inproceedings{gaier2017aerodynamic,
+  title={Aerodynamic design exploration through surrogate-assisted illumination},
+  author={Gaier, Adam and Asteroth, Alexander and Mouret, Jean-Baptiste},
+  booktitle={18th AIAA/ISSMO multidisciplinary analysis and optimization conference},
+  pages={3330},
+  year={2017}
+}
+
+@inproceedings{produqd,
+      title={Prototype discovery using quality-diversity},
+      author={Hagg, Alexander and Asteroth, Alexander and B{\"a}ck, Thomas},
+      booktitle={International Conference on Parallel Problem Solving from Nature},
+      pages={500--511},
+      year={2018},
+      organization={Springer}
+    }
+
+@inproceedings{sphen,
+  title={Designing air flow with surrogate-assisted phenotypic niching},
+  author={Hagg, Alexander and Wilde, Dominik and Asteroth, Alexander and B{\"a}ck, Thomas},
+  booktitle={International Conference on Parallel Problem Solving from Nature},
+  pages={140--153},
+  year={2020},
+  organization={Springer}
+}
+
+% --- Game Design
+@inproceedings{alvarez2019empowering,
+  title={Empowering quality diversity in dungeon design with interactive constrained map-elites},
+  author={Alvarez, Alberto and Dahlskog, Steve and Font, Jose and Togelius, Julian},
+  booktitle={2019 IEEE Conference on Games (CoG)},
+  pages={1--8},
+  year={2019},
+  organization={IEEE}
+}
+
+@inproceedings{gravina2019procedural,
+  title={Procedural content generation through quality diversity},
+  author={Gravina, Daniele and Khalifa, Ahmed and Liapis, Antonios and Togelius, Julian and Yannakakis, Georgios N},
+  booktitle={2019 IEEE Conference on Games (CoG)},
+  pages={1--8},
+  year={2019},
+  organization={IEEE}
+}
+
+@inproceedings{gonzalez2020finding,
+  title={Finding game levels with the right difficulty in a few trials through intelligent trial-and-error},
+  author={Gonz{\'a}lez-Duque, Miguel and Palm, Rasmus Berg and Ha, David and Risi, Sebastian},
+  booktitle={2020 IEEE Conference on Games (CoG)},
+  pages={503--510},
+  year={2020},
+  organization={IEEE}
+}
+
+@article{sail_ecj,
+  title={Data-efficient design exploration through surrogate-assisted illumination},
+  author={Gaier, Adam and Asteroth, Alexander and Mouret, Jean-Baptiste},
+  journal={Evolutionary computation},
+  volume={26},
+  number={3},
+  pages={381--410},
+  year={2018},
+  publisher={MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}
+}
+
+@article{bopelites,
+  title={BOP-Elites, a Bayesian Optimisation Approach to Quality Diversity Search with Black-Box descriptor functions},
+  author={Kent, Paul and Gaier, Adam and Mouret, Jean-Baptiste and Branke, Juergen},
+  journal={arXiv preprint arXiv:2307.09326},
+  year={2023}
+}
+
+@inproceedings{dsme,
+  title={Deep surrogate assisted map-elites for automated hearthstone deckbuilding},
+  author={Zhang, Yulun and Fontaine, Matthew C and Hoover, Amy K and Nikolaidis, Stefanos},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference},
+  pages={158--167},
+  year={2022}
+}
+
+% Generative models for optimization
+@inproceedings{dde,
+  title={Discovering representations for black-box optimization},
+  author={Gaier, Adam and Asteroth, Alexander and Mouret, Jean-Baptiste},
+  booktitle={Proceedings of the 2020 Genetic and Evolutionary Computation Conference},
+  pages={103--111},
+  year={2020}
+}
+
+@inproceedings{pms,
+  title={Policy manifold search: Exploring the manifold hypothesis for diversity-based neuroevolution},
+  author={Rakicevic, Nemanja and Cully, Antoine and Kormushev, Petar},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference},
+  pages={901--909},
+  year={2021}
+}
+
+% Generative models for exploration
+@article{aurora,
+  title={Unsupervised Behavior Discovery With Quality-Diversity Optimization},
+  author={Grillotti, Luca and Cully, Antoine},
+  journal={IEEE Transactions on Evolutionary Computation},
+  volume={26},
+  number={6},
+  pages={1539--1552},
+  year={2022},
+  publisher={IEEE}
+}
+
+@inproceedings{taxons,
+  title={Unsupervised learning and exploration of reachable outcome space},
+  author={Paolo, Giuseppe and Laflaquiere, Alban and Coninx, Alexandre and Doncieux, Stephane},
+  booktitle={2020 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={2379--2385},
+  year={2020},
+  organization={IEEE}
+}
+
+@inproceedings{stepping,
+  title={Are quality diversity algorithms better at generating stepping stones than objective-based search?},
+  author={Gaier, Adam and Asteroth, Alexander and Mouret, Jean-Baptiste},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+  pages={115--116},
+  year={2019}
+}
+
+% RL Conditioned on Arxiv
+@article{faldor2023map,
+  title={MAP-Elites with Descriptor-Conditioned Gradients and Archive Distillation into a Single Policy},
+  author={Faldor, Maxence and Chalumeau, F{\'e}lix and Flageat, Manon and Cully, Antoine},
+  journal={arXiv preprint arXiv:2303.03832},
+  year={2023}
+}
+
+% ELM
+@incollection{elm,
+  title={Evolution through large models},
+  author={Lehman, Joel and Gordon, Jonathan and Jain, Shawn and Ndousse, Kamal and Yeh, Cathy and Stanley, Kenneth O},
+  booktitle={Handbook of Evolutionary Machine Learning},
+  pages={331--366},
+  year={2023},
+  publisher={Springer}
+}
+
+
+% QDAIF
+@article{qdaif,
+  title={Quality-Diversity through AI Feedback},
+  author={Bradley, Herbie and Dai, Andrew and Teufel, Hannah and Zhang, Jenny and Oostermeijer, Koen and Bellagente, Marco and Clune, Jeff and Stanley, Kenneth and Schott, Gr{\'e}gory and Lehman, Joel},
+  journal={arXiv preprint arXiv:2310.13032},
+  year={2023}
+}
+
+
+% Locality
+@book{locality,
+  title={Representations for genetic and evolutionary algorithms},
+  author={Rothlauf, Franz and Rothlauf, Franz},
+  year={2006},
+  publisher={Springer}
+}
+
+</script>
+<!--
+
+
+-->
+<script language="javascript" type="text/javascript" src="lib/p5.min.js"></script>
+<script language="javascript" type="text/javascript" src="lib/p5.dom.js"></script>
+<script language="javascript" type="text/javascript" src="lib/numjs.js"></script>
+<script language="javascript" type="text/javascript" src="lib/agent.js"></script>
+<script language="javascript" type="text/javascript" src="lib/wann_agent.js"></script>
+<script language="javascript" type="text/javascript" src="lib/swingup.js"></script>
+<script src="lib/blazy.js"></script>
+<script language="javascript" type="text/javascript" src="lib/jquery-1.12.4.min.js"></script>
+<script language="javascript" type="text/javascript" src="lib/demo.js"></script>
+<script language="javascript" type="text/javascript" src="lib/controller.js"></script>
