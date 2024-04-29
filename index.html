@@ -148,15 +148,15 @@ dt-article figcaption b {
   <meta name="twitter:title" content="TileGPT" />
   <meta name="twitter:description" content="" />
   <meta property="og:site_name" content="TileGPT" />
-  <meta name="twitter:image" content="https://weightagnostic.github.io/assets/img/wann_card_square_v2.png" />
+  <!-- <meta name="twitter:image" content="https://weightagnostic.github.io/assets/img/wann_card_square_v2.png" /> -->
 
 
   <!-- SEO -->
   <meta property="og:title" content="TileGPT" />
   <meta property="og:type" content="article" />
   <meta property="og:description" content="Generative Design through Quality-Diversity Data Synthesis and Language Models" />
-  <meta property="og:image" content="https://weightagnostic.github.io/assets/img/wann_card_rect_v2.png" />
-  <meta property="og:url" content="https://weightagnostic.github.io/" />
+  <!-- <meta property="og:image" content="https://weightagnostic.github.io/assets/img/wann_card_rect_v2.png" /> -->
+  <meta property="og:url" content="https://tilegpt.github.io/" />
 
 
 
@@ -212,7 +212,8 @@ dt-article figcaption b {
   </div>
   <div class="date">
     <div class="month">Download</div>
-    <div class="year" style="color: #FF6C00;"><a href="https://arxiv.org/abs/1906.04358" target="_blank">PDF</a></div>
+    <!-- <div class="year" style="color: #FF6C00;"><a href="https://arxiv.org/abs/1906.04358" target="_blank">PDF</a></div> -->
+    <div class="year" style="color: #FF6C00;"><a href="https://tilegpt.github.io/" target="_blank">PDF</a></div>
   </div>
 </div>
 </dt-byline>
@@ -232,7 +233,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
 <p>Rather than asking the language model to produce detailed layouts, we use it to generate higher level conceptual designs from natural language prompts, such as the distribution of buildings and green spaces. These designs are then processed by WFC to generate the detailed layout of modules which can realize the conceptual design. This method ensures that the final design not only resonates with the input provided by the designer but also rigorously complies with essential architectural constraints.</p>
 <div style="text-align: center;">
   <br/>
-  <img class="b-lazy" src="assets/png/overview.png" style="width: 100%;"/>
+  <img class="b-lazy" src="assets/png/overview_1col.png" style="width: 100%;"/>
   <br/>
   <figcaption style="text-align: left;">
     <b>Algorithm flow of the proposed generative design approach, TileGPT</b>
@@ -343,7 +344,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
 <h2>3.2 Language Model Training</h2>
 <p>A causal language model is fine-tuned to learn &quot;next tile prediction&quot;, analogous to the &quot;next token prediction&quot; objective for which most causal language models are optimized. The model learns to generate a design by predicting a single tile based on a sequence of previous tiles. Previous work has demonstrated that by fine-tuning LLMs for tile generation, they can generate new playable levels in Sokoban<dt-cite key="sokoban_gpt"></dt-cite> and Mario Bros<dt-cite key="mariogpt_neurips"></dt-cite>. Similar to<dt-cite key="mariogpt_neurips"></dt-cite>, we choose a distilled version of GPT-2 (DistilGPT2)<dt-cite key="sanh2020distilbert"></dt-cite> as our base LLM to fine-tune, with additional cross-attention weights used for prompt conditioning. To incorporate these prompts, we utilize a frozen text encoder (BART)<dt-cite key="lewis2019bart"></dt-cite> to embed the prompts as a vector of floats. These vectors are averaged and used in the cross-attention weights in combination with the encoded tile sequence. All previous tiles are used as context for predicting the next tile.</p>
 <div style="text-align: center;">
-  <img src="assets/png/tilegpt.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <img src="assets/png/tilegpt_architecture.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
   <figcaption>TileGPT architecture. Text prompts are encoded through a frozen text encoder and are combined with previous tiles in GPT2's cross attention mechanism.</figcaption>
 </div>
 <p>Because we use DistilGPT2, the model in TileGPT is relatively small and utilizes only 96 million trainable parameters. This allows for training efficiently on a single GPU. We train TileGPT for 500,000 steps, sampling 16 random designs uniformly at each training iteration and optimize weights using the Adam optimizer<dt-cite key="kingma2017adam"></dt-cite>.</p>
@@ -370,8 +371,21 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
 <p>Adjacency rules for our WFC algorithm are derived from a small hand designed set of designs. Each generated site layout consists of a 25x15 grid, totaling 375 tiles. These tiles represent various elements: livable building component modules, utility elements like corridors and cores, more or less intensive landscaping such as trees or lawn, and unused spaces and streets. Site borders are fixed, surrounded by street and landscaping tiles.</p>
 <p>Sites are evaluated on five metrics: number of parks, largest park size, total units, sequestered carbon, and privacy, each illustrated in Figure 6. A site's performance is gauged by the proportion of non-empty tiles. Each site is labeled with a text prompt that mirrors these features, divided into low, medium, and high values, for a total of 243 (<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mrow><msup><mn mathvariant="script">3</mn><mn mathvariant="script">5</mn></msup></mrow></mrow><annotation encoding="application/x-tex">\mathcal{3^5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.664392em;"></span><span class="strut bottom" style="height:0.858832em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord textstyle uncramped"><span class="mord"><span class="mord mathcal">3</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathcal">5</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span></span>) possible text labels.</p>
 <div style="text-align: center;">
-  <img src="assets/png/design_metrics_03.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
-  <figcaption> Features explored with MAP-Elites. Layouts which span these features are generated to form a dataset for training. </figcaption>
+  <br/>
+  <img id="feature_figure" src="assets/png/features/n_parks.png" style="display: block; margin: auto; width: 90%;"/>
+  <br/>
+  <figcaption style="color:#FF6C00;">Interactive Demo</figcaption>
+  <figcaption style="text-align: left;">
+    <b>Features explored with MAP-Elites.</b><br/>
+    Layouts which span these features are generated to form a dataset for training. We can also see which parts of the inputs are used for classification.
+  </figcaption>
+</div>
+<div class="btn-group">
+  <button id="feature_nParks" onclick="$('#feature_figure').attr('src', 'assets/png/features/n_parks.png')">Number of Parks</button>&nbsp;
+  <button id="feature_units" onclick="$('#feature_figure').attr('src', 'assets/png/features/total_units.png')">Number of Units</button>&nbsp;
+  <button id="feature_carbon" onclick="$('#feature_figure').attr('src', 'assets/png/features/carbon.png')">Sequestered Carbon</button>&nbsp;
+  <button id="feature_largest" onclick="$('#feature_figure').attr('src', 'assets/png/features/largest_park.png')">Largest Park</button>&nbsp;
+  <button id="feature_privacy" onclick="$('#feature_figure').attr('src', 'assets/png/features/privacy.png')">Privacy</button>&nbsp;
 </div>
 <p>For clarity we will refer to these metrics as `features' and an instance of these features as an attribute (privary vs. low privacy).</p>
 <h3>4.2 Experiment Objectives and Methodology</h3>
@@ -399,7 +413,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
 <p>A key aspect of producing expressive models is ensuring a diverse range of features in the dataset. Ideally, this would manifest as a uniform distribution across all features. While a completely filled MAP-Elites archive would produce this ideal scenario, in practice there are inherent trade-offs in features, and not every combination can be produced, so creating some imbalance in unavoidable.</p>
 <p>The distribution of feature values in the designs of each dataset is shown in Figure \ref{fig:data_dist}. To underline the difference in uniformity, we also calculate the Gini coefficient, a measure of inequality , of the number of samples in each bin (Gini = 0 is uniform, Gini = 1 means all samples are in a single bin).</p>
 <div style="text-align: center;">
-  <img src="assets/png/qd_vs_wfc.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <img src="assets/png/qd_vs_wfc_1col.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
   <figcaption> Distribution of feature and performance values of in datasets of designs generated with MAP-Elites and Sampling. Gini coefficient of number of samples in each bin is provided to aid interpretation of distrbutions. Demarcation of the qualitative labels used to train the model (e.g. low, mid, high number of units) show in green. </figcaption>
 </div>
 <p>This analysis reveals that MAP-Elites produces a far more uniformly distributed dataset compared with sampling. More than half of all samples generated by sampling WFC are in the lower tenth of sequestered carbon and large parks -- randomly generated designs rarely yield large parks, which are crucial for substantial carbon sequestration. Random sampling simply cannot reliably cover the extremes of some feature distributions.</p>
