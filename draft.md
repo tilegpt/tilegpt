@@ -22,7 +22,7 @@ Rather than asking the language model to produce detailed layouts, we use it to 
 
 <div style="text-align: center;">
   <br/>
-  <img class="b-lazy" src="assets/png/overview.png" style="width: 100%;"/>
+  <img class="b-lazy" src="assets/png/overview_1col.png" style="width: 100%;"/>
   <br/>
   <figcaption style="text-align: left;">
     <b>Algorithm flow of the proposed generative design approach, TileGPT</b>
@@ -163,7 +163,7 @@ Designs are represented as a grid of tiles, but to convert these designs into to
 A causal language model is fine-tuned to learn "next tile prediction", analogous to the "next token prediction" objective for which most causal language models are optimized. The model learns to generate a design by predicting a single tile based on a sequence of previous tiles. Previous work has demonstrated that by fine-tuning LLMs for tile generation, they can generate new playable levels in Sokoban<dt-cite key="sokoban_gpt"></dt-cite> and Mario Bros<dt-cite key="mariogpt_neurips"></dt-cite>. Similar to<dt-cite key="mariogpt_neurips"></dt-cite>, we choose a distilled version of GPT-2 (DistilGPT2)<dt-cite key="sanh2020distilbert"></dt-cite> as our base LLM to fine-tune, with additional cross-attention weights used for prompt conditioning. To incorporate these prompts, we utilize a frozen text encoder (BART)<dt-cite key="lewis2019bart"></dt-cite> to embed the prompts as a vector of floats. These vectors are averaged and used in the cross-attention weights in combination with the encoded tile sequence. All previous tiles are used as context for predicting the next tile.
 
 <div style="text-align: center;">
-  <img src="assets/png/tilegpt.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <img src="assets/png/tilegpt_architecture.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
   <figcaption>TileGPT architecture. Text prompts are encoded through a frozen text encoder and are combined with previous tiles in GPT2's cross attention mechanism.</figcaption>
 </div>
 
@@ -204,10 +204,27 @@ Adjacency rules for our WFC algorithm are derived from a small hand designed set
 
 Sites are evaluated on five metrics: number of parks, largest park size, total units, sequestered carbon, and privacy, each illustrated in Figure 6. A site's performance is gauged by the proportion of non-empty tiles. Each site is labeled with a text prompt that mirrors these features, divided into low, medium, and high values, for a total of 243 ($\mathcal{3^5}$) possible text labels.
 
+
 <div style="text-align: center;">
-  <img src="assets/png/design_metrics_03.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
-  <figcaption> Features explored with MAP-Elites. Layouts which span these features are generated to form a dataset for training. </figcaption>
+  <br/>
+  <img id="feature_figure" src="assets/png/features/n_parks.png" style="display: block; margin: auto; width: 90%;"/>
+  <br/>
+  <figcaption style="color:#FF6C00;">Interactive Demo</figcaption>
+  <figcaption style="text-align: left;">
+    <b>Features explored with MAP-Elites.</b><br/>
+    Layouts which span these features are generated to form a dataset for training. We can also see which parts of the inputs are used for classification.
+  </figcaption>
 </div>
+
+<div class="btn-group">
+  <button id="feature_nParks" onclick="$('#feature_figure').attr('src', 'assets/png/features/n_parks.png')">Number of Parks</button>&nbsp;
+  <button id="feature_units" onclick="$('#feature_figure').attr('src', 'assets/png/features/total_units.png')">Number of Units</button>&nbsp;
+  <button id="feature_carbon" onclick="$('#feature_figure').attr('src', 'assets/png/features/carbon.png')">Sequestered Carbon</button>&nbsp;
+  <button id="feature_largest" onclick="$('#feature_figure').attr('src', 'assets/png/features/largest_park.png')">Largest Park</button>&nbsp;
+  <button id="feature_privacy" onclick="$('#feature_figure').attr('src', 'assets/png/features/privacy.png')">Privacy</button>&nbsp;
+</div>
+
+
 
 For clarity we will refer to these metrics as `features' and an instance of these features as an attribute (privary vs. low privacy).
 
@@ -239,7 +256,7 @@ A key aspect of producing expressive models is ensuring a diverse range of featu
 The distribution of feature values in the designs of each dataset is shown in Figure \ref{fig:data_dist}. To underline the difference in uniformity, we also calculate the Gini coefficient, a measure of inequality , of the number of samples in each bin (Gini = 0 is uniform, Gini = 1 means all samples are in a single bin).
 
 <div style="text-align: center;">
-  <img src="assets/png/qd_vs_wfc.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
+  <img src="assets/png/qd_vs_wfc_1col.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
   <figcaption> Distribution of feature and performance values of in datasets of designs generated with MAP-Elites and Sampling. Gini coefficient of number of samples in each bin is provided to aid interpretation of distrbutions. Demarcation of the qualitative labels used to train the model (e.g. low, mid, high number of units) show in green. </figcaption>
 </div>
 
