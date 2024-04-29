@@ -1,9 +1,25 @@
 [√] Add all figures from paper
+
+[√] Checklist   
+   [√] 1. Acknowledgements
+   [√] 2. Feedback link (can use the current repo's issues)
+   [√] 3. Citation for article 
+   [√] 4. Code link 
+   [√] 5. License of text/images 
+   [√] 6. Supplementary Materials
+   [√] References
+   [√] Twitter image and card data (`draft_header.html`: l146)
+   [√] SEO description (`draft_header.html`: l146)
+
+
+
+
 [ ] Edit figures to fit better single column
     [ ] Overview figure
     [ ] 'layout generation'
     [ ] feature distribution
     
+[ ] Cite all non-article videos and images
 
 [ ] Expand MAP-Elites section, including explanatory figure
     [ ] Add 'lightbox' figure for MAP-Elites to explore select cells
@@ -17,3 +33,11 @@
 
 [ ] Edit architecture figure "A lot of small parks" to "a lot of parks"
 [ ] Edit video to TileGPT : 'Generative Design through Quality-Diversity Data Synthesis and Language Models'
+
+
+## After publication
+[ ] Update bibtex link
+[ ] Update 'Download' link for arxiv pdf link
+[ ] Card image:
+    [ ] create square twitter image
+    [ ] update on drafter_header (Twitter Card Data)
