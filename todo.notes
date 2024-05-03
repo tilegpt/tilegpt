@@ -14,26 +14,29 @@
 
 
 
-[ ] Edit figures to fit better single column
-    [ ] Overview figure
-    [ ] 'layout generation'
-    [ ] feature distribution
+[√] Edit figures to fit better single column
+    [√] Overview figure
+    [√] 'layout generation'
+    [√] feature distribution
     
-[ ] Cite all non-article videos and images
-
-[ ] Expand MAP-Elites section, including explanatory figure
-    [ ] Add 'lightbox' figure for MAP-Elites to explore select cells
-[ ] Add MarioGPT figures and gifs
-[ ] Add FactoryOS videos
-[ ] Add WFC gifs
-[ ] Add 'Putting it all together' MP4
+[√] Add MarioGPT figures and gifs
+[√] Add FactoryOS videos
+[√] Add WFC gifs
+[√] Add 'Putting it all together' MP4?
 [ ] Add inpainting demo to supplemental
 
-[ ] Lightbox features 1 at a time instead of long display
+[√] Expand MAP-Elites section, including explanatory figure
 
-[ ] Edit architecture figure "A lot of small parks" to "a lot of parks"
-[ ] Edit video to TileGPT : 'Generative Design through Quality-Diversity Data Synthesis and Language Models'
+[√] Lightbox features 1 at a time instead of long display
+[√] Edit architecture figure "A lot of small parks" to "a lot of parks"
+[√] Edit video to TileGPT : 'Generative Design through Quality-Diversity Data Synthesis and Language Models'
 
+## Cleaning up
+[√] Cite all non-article videos and images
+
+## After code
+[ ] Update code link
+[ ] Put code link on front with PDF
 
 ## After publication
 [ ] Update bibtex link
@@ -41,3 +44,8 @@
 [ ] Card image:
     [ ] create square twitter image
     [ ] update on drafter_header (Twitter Card Data)
+
+
+## Nice to have
+[ ] Add 'lightbox' figure for MAP-Elites to explore select cells?
+[ ] HF demo
