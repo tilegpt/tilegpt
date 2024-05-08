@@ -230,12 +230,13 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
 <div style="text-align: center;">
   <br/>
   <img class="b-lazy" src="assets/mp4/mario_gpt.gif" style="width: 100%;"/>
-  <img class="b-lazy" src="assets/png/mario_prompt-samples.png" style="width: 100%;"/>
+  <!-- <img class="b-lazy" src="assets/png/mario_prompt-samples.png" style="width: 100%;"/> -->
+  <img class="b-lazy" src="assets/png/architecture.png" style="width: 100%;"/>
   <br/>
   <figcaption style="text-align: left;">
-    <b>Prompt to Level examples from MarioGPT<dt-cite key="mariogpt_gecco,mariogpt_neurips"></dt-cite></b>
+    <b>Text-to-Level with MarioGPT<dt-cite key="mariogpt_gecco,mariogpt_neurips"></dt-cite></b>
     <br/>
-    GPT-2 can be fine tuned on Mario levels represented as ACSII text, conditioned on text labels, and used to generate new playable levels. This is a love letter to that elegant and playful work, and to the sad sack reviewers who "didn't see any application beyond games" ❤️ 
+    GPT-2 can be fine tuned on Mario levels represented as ACSII text, conditioned on text labels, and used to generate new playable levels. This paper builds on this approach, and is a love letter to that elegant and playful work ❤️ 
     <br/>
   </figcaption>
 </div>
@@ -303,7 +304,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
   <figcaption style="text-align: left;">
     <b>MAP-Elites</b>
     <br/>
-    MAP-Elites searches explicitly for a collection of solutions that evenly span a set of defined attributes -- ideal for generating synthetic data.
+    MAP-Elites searches explicitly for a collection of solutions that evenly span a set of defined attributes -- ideal for generating synthetic data. In one loop of the  algorithm: (1) parent solutions are selected randomly from the map, (2) those solutions are varied, (3) and evaluated to obtain their performance and location in the attribute map. (4) These new solutions are compared with those already in the bin, with the best solution taking its place in the map and the other discarded.
   </figcaption>
 </div>
 <p>MAP-Elites searches for solutions which fill a grid, or map, whose bins and axis are defined by attributes. For example, on one axis we can have, the ‘the number of units’, and on the other ‘the size of the largest park’.  When a solution is generated, we evaluate it to get a location in this attribute grid, and store the solution there – one per bin. At the start we seed the map with some initial solutions generated randomly and then we can begin optimization in an evolutionary fashion; selecting an existing solution from the grid, varying the solution by altering the fixed tiles, evaluating it to get it's performance and its location in the attribute grid. If a solution already exists in the same cell, the two are compared according to performance, and the better performing placed in the bin. Here we are judging sites by the amount of ‘empty’ space, preferring those which make use of more of the site. This loop produces a set of increasingly high performing solutions that span the range of attribute values -- giving us a high performing dataset balanced across attribute labels. In this way MAP-Elites generates a balanced dataset of labeled data, perfect for training.</p>
@@ -368,7 +369,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
   <img src="assets/png/tileset_reduced.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
   <figcaption>
   <b>Possible WFC cell states and their simplifications for tokenization.</b>
-  <br/> Designs are evaluated using the WFC cell states, but generated using the reduced set of LLM cell states.</figcaption>
+  <br/> Designs are evaluated using the WFC cell states, but generated using the reduced set of LLM cell states. The GPT model is finetuned to generate the reduced set, which are then refined into the more detailed tiles by the WFC algorithm. </figcaption>
 </div>
 <p>Designs are represented as a grid of tiles, but to convert these designs into tokens we transform each into one of these functional categories. Subsequently, each category is represented by a unique character (e.g., 'A', 'B', 'C'). We then flatten this grid of characters into a vector format to fit the standard sequence completion training paradigm of GPT models. Each site’s features -- defined by their coordinates in the MAP-Elites grid -- are paired with their respective design. These are then translated into high-level natural language descriptions during training (e.g., &quot;few/some/many parks&quot;).</p>
 <h2>3.2 Language Model Training</h2>
@@ -416,7 +417,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
   document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function() {
       document.getElementById('myVideo').play();
-    }, 1000); // Delay of 1 second
+    }, 2000); // Delay of 2 seconds
   });
 </script>
 <p>Importantly, this procedure is not rigid. Users have the flexibility to modify the design iteratively. For example, a portion of the site can be erased and re-generated by inputting an alternative text prompt, directing the system to refill the area with a design that incorporates specific desired features. This iterative capability enhances the adaptability and user-interactivity of our design generation.</p>
@@ -489,7 +490,7 @@ Our system demonstrates reliable adherence to textual guidance, enabling the gen
   <figcaption>  
   <b>Model performance</b> 
   <br/>
-  Model performancewhen trained on a MAP-Elites synthesized dataset vs. one obtained by sampling. Each cell represents the mean of a single prompt (e.g. "High number of parks") in combination with every other prompt (varied levels of units, privacy, carbon, park size). \textit{Validity}: how often a design with this prompted feature generates a valid design. \textit{Fidelity}: how many valid solutions follow the prompt. </figcaption>
+  Model performancewhen trained on a MAP-Elites synthesized dataset vs. one obtained by sampling. Each cell represents the mean of a single prompt (e.g. "High number of parks") in combination with every other prompt (varied levels of units, privacy, carbon, park size). <i>Validity</i>: how often a design with this prompted feature generates a valid design. <i>Fidelity</i>: how many valid solutions follow the prompt. </figcaption>
 </div>
 <p>The model trained on the dataset generated by WFC exhibits uneven performance, mirroring the inconsistencies in its training dataset. The model struggles to generate designs with high carbon sequestration, large parks, or low privacy solutions, all of which are underrepresented in the sampled dataset. For attributes with abundant data, such as low carbon sequestration or number of parks, the model performs well. That the sampled dataset is lower-performing, with a lot of empty tiles, translates into fewer and smaller parks, and fewer units. This alone may be enough to bias the generation toward these attributes, regardless of the prompt.</p>
 <p>The validity of designs generated by the WFC-trained model is lower across all categories, particularly in the 'high' level categories where the fidelity is also lacking. This trend can be attributed to the model's limited exposure to the cross-attention signal of rarer prompts in the WFC dataset, leading to challenges in handling less predictable inputs and consequently producing invalid designs.</p>

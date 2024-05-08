@@ -16,12 +16,13 @@ Large language models (LLMs), which have streamlined many tasks, could also be a
 <div style="text-align: center;">
   <br/>
   <img class="b-lazy" src="assets/mp4/mario_gpt.gif" style="width: 100%;"/>
-  <img class="b-lazy" src="assets/png/mario_prompt-samples.png" style="width: 100%;"/>
+  <!-- <img class="b-lazy" src="assets/png/mario_prompt-samples.png" style="width: 100%;"/> -->
+  <img class="b-lazy" src="assets/png/architecture.png" style="width: 100%;"/>
   <br/>
   <figcaption style="text-align: left;">
-    <b>Prompt to Level examples from MarioGPT<dt-cite key="mariogpt_gecco,mariogpt_neurips"></dt-cite></b>
+    <b>Text-to-Level with MarioGPT<dt-cite key="mariogpt_gecco,mariogpt_neurips"></dt-cite></b>
     <br/>
-    GPT-2 can be fine tuned on Mario levels represented as ACSII text, conditioned on text labels, and used to generate new playable levels. This is a love letter to that elegant and playful work, and to the sad sack reviewers who "didn't see any application beyond games" ❤️ 
+    GPT-2 can be fine tuned on Mario levels represented as ACSII text, conditioned on text labels, and used to generate new playable levels. This paper builds on this approach, and is a love letter to that elegant and playful work ❤️ 
     <br/>
   </figcaption>
 </div>
@@ -107,7 +108,7 @@ QD produces a collection of solutions in a single run. The ability to produce nu
   <figcaption style="text-align: left;">
     <b>MAP-Elites</b>
     <br/>
-    MAP-Elites searches explicitly for a collection of solutions that evenly span a set of defined attributes -- ideal for generating synthetic data.
+    MAP-Elites searches explicitly for a collection of solutions that evenly span a set of defined attributes -- ideal for generating synthetic data. In one loop of the  algorithm: (1) parent solutions are selected randomly from the map, (2) those solutions are varied, (3) and evaluated to obtain their performance and location in the attribute map. (4) These new solutions are compared with those already in the bin, with the best solution taking its place in the map and the other discarded.
   </figcaption>
 </div>
 
@@ -192,7 +193,7 @@ To streamline this process, we categorize the full tile set into a smaller set o
   <img src="assets/png/tileset_reduced.png" style="width: 100%;" alt="Mutation of a WFC genome. Fixed tiles are encoded into the genome, and set at the start of a WFC rollout, influencing the development of the final design.">
   <figcaption>
   <b>Possible WFC cell states and their simplifications for tokenization.</b>
-  <br/> Designs are evaluated using the WFC cell states, but generated using the reduced set of LLM cell states.</figcaption>
+  <br/> Designs are evaluated using the WFC cell states, but generated using the reduced set of LLM cell states. The GPT model is finetuned to generate the reduced set, which are then refined into the more detailed tiles by the WFC algorithm. </figcaption>
 </div>
 
 Designs are represented as a grid of tiles, but to convert these designs into tokens we transform each into one of these functional categories. Subsequently, each category is represented by a unique character (e.g., 'A', 'B', 'C'). We then flatten this grid of characters into a vector format to fit the standard sequence completion training paradigm of GPT models. Each site’s features -- defined by their coordinates in the MAP-Elites grid -- are paired with their respective design. These are then translated into high-level natural language descriptions during training (e.g., "few/some/many parks").
@@ -253,7 +254,7 @@ Upon completion of WFC, we obtain a single, valid design. This design is not onl
   document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function() {
       document.getElementById('myVideo').play();
-    }, 1000); // Delay of 1 second
+    }, 2000); // Delay of 2 seconds
   });
 </script>
 
@@ -353,7 +354,7 @@ The performance of each model, including the differences between them, is shown 
   <figcaption>  
   <b>Model performance</b> 
   <br/>
-  Model performancewhen trained on a MAP-Elites synthesized dataset vs. one obtained by sampling. Each cell represents the mean of a single prompt (e.g. "High number of parks") in combination with every other prompt (varied levels of units, privacy, carbon, park size). \textit{Validity}: how often a design with this prompted feature generates a valid design. \textit{Fidelity}: how many valid solutions follow the prompt. </figcaption>
+  Model performancewhen trained on a MAP-Elites synthesized dataset vs. one obtained by sampling. Each cell represents the mean of a single prompt (e.g. "High number of parks") in combination with every other prompt (varied levels of units, privacy, carbon, park size). <i>Validity</i>: how often a design with this prompted feature generates a valid design. <i>Fidelity</i>: how many valid solutions follow the prompt. </figcaption>
 </div>
 
 
