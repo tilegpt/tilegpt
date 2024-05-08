@@ -27,9 +27,8 @@ BibTeX citation
 }</pre>
 
 ## Open Source Code
-
-Please see our [repo](https://github.com/agaier/tilegpt) for code release. Our
-own experiments modify the [pyribs](https://pyribs.org/) library for MAP-Elites, the [Mario-GPT](https://github.com/shyamsn97/mario-gpt) code for the language model components, and the [DeBroglie](https://boristhebrave.github.io/DeBroglie/) WFC library.
+<!-- Please see our [repo](https://github.com/agaier/tilegpt) for code release.  -->
+We're cleaning up our dirty research code but it will be out soon. Our own experiments modify the [pyribs](https://pyribs.org/) library for MAP-Elites, the [Mario-GPT](https://github.com/shyamsn97/mario-gpt) code for the language model components, and the [DeBroglie](https://boristhebrave.github.io/DeBroglie/) WFC library.
 
 ## Reuse
 

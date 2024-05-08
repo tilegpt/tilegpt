@@ -21,7 +21,7 @@ Large language models (LLMs), which have streamlined many tasks, could also be a
   <figcaption style="text-align: left;">
     <b>Prompt to Level examples from MarioGPT<dt-cite key="mariogpt_gecco,mariogpt_neurips"></dt-cite></b>
     <br/>
-    GPT-2 can be fine tuned on Mario levels represented as ACSII text, conditioned on text labels, and used to generate new playable levels. This is a love letter to this elegant and playful work, and to the sad sack reviewers who "didn't see any application beyond games" ❤️ 
+    GPT-2 can be fine tuned on Mario levels represented as ACSII text, conditioned on text labels, and used to generate new playable levels. This is a love letter to that elegant and playful work, and to the sad sack reviewers who "didn't see any application beyond games" ❤️ 
     <br/>
   </figcaption>
 </div>
