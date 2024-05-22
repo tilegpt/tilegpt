@@ -375,7 +375,7 @@ Our current system was built on simple tile representations, and while many layo
 
 The conditioning of the model on features is currently based on linear ranges of user-defined features; however, future implementations could utilize non-linear regions or integrate more descriptive natural language labels for more intuitive exploration. Approaches like Quality-Diversity with AI Feedback<dt-cite key="qdaif"></dt-cite>, especially combined with multimodal models which could automatically label site plans with more qualitative attributes, could further enhance the system’s capability for generating intuitive and meaningful design features.
 
-The system is designed to be interactive. Users can modify specific areas of a site layout according to their prompts, enabling high-level exploration and alteration of site plans. This could done like this this:
+The system is designed to be interactive. Users can modify specific areas of a site layout according to their prompts, enabling high-level exploration and alteration of site plans:
 
 <div style="text-align: center;">
   <br/>
