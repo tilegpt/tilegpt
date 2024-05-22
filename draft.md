@@ -258,25 +258,6 @@ Upon completion of WFC, we obtain a single, valid design. This design is not onl
   });
 </script>
 
-<!-- <div style="text-align: center;">
-  <br/>
-  <video id="myVideo" class="b-lazy" src="assets/mp4/wfc_final_collapse.mp4" style="width: 100%;" loop muted playsinline>
-    Your browser does not support the video tag.
-  </video>
-  <br/>
-  <figcaption style="text-align: left;">
-    <b>Design Completion with WFC</b>
-    <br/>
-    A conceptual design is refined with the Wave Function Collapse algorithm to a detailed design.
-  </figcaption>
-</div>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(function() {
-      document.getElementById('myVideo').play();
-    }, 2000); // Delay of 2 seconds
-  });
-</script> -->
 
 
 
@@ -394,6 +375,29 @@ Our current system was built on simple tile representations, and while many layo
 
 The conditioning of the model on features is currently based on linear ranges of user-defined features; however, future implementations could utilize non-linear regions or integrate more descriptive natural language labels for more intuitive exploration. Approaches like Quality-Diversity with AI Feedback<dt-cite key="qdaif"></dt-cite>, especially combined with multimodal models which could automatically label site plans with more qualitative attributes, could further enhance the system’s capability for generating intuitive and meaningful design features.
 
-Although not explicitly evaluated in this paper, the system is designed to be interactive. Users can modify specific areas of a site layout according to their prompts, enabling high-level exploration and alteration of site plans. Such prompt-guided changes can act as high-level mutation operators, as shown in MarioGPT<dt-cite key="mariogpt_neurips"></dt-cite>, offering a novel avenue for interactive and dynamic design modification.
+The system is designed to be interactive. Users can modify specific areas of a site layout according to their prompts, enabling high-level exploration and alteration of site plans. This could done like this this:
+
+<div style="text-align: center;">
+  <br/>
+  <video id="myVideo" class="b-lazy" src="assets/mp4/inpaint.mp4" style="width: 100%;" loop muted playsinline autoplay>
+    Your browser does not support the video tag.
+  </video>
+  <br/>
+  <figcaption style="text-align: left;">
+    <b>Generation and editing layouts with inpainting</b>
+    <br/>
+    A text and cursor based workflow to explore and refine site layouts based on
+    performance metrics.
+  </figcaption>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('myVideo').play().catch(function(error) {
+      console.error('Video playback failed:', error);
+    });
+  });
+</script>
+
+ Such prompt-guided changes can act as high-level mutation operators, as shown in MarioGPT<dt-cite key="mariogpt_neurips"></dt-cite>, offering a novel avenue for interactive and dynamic design modification. Ensuring tiles are stitched together correctly requires a slightly different architecture, using masking models like BERT when we get to the borders, but the rest of the system remains the same.
 
 Beyond the specifics of the presented system, this work represents a broader approach for applying generative models in engineering and architecture. This approach rests on three pillars: diversity-based optimization for generating high-quality datasets, the use of large models for generation and interaction, and constraint satisfaction algorithms that take the final step in generation to ensuring the valid designs. By weaving a generative model into the fabric of the design process, we mitigate the need for extensive post-hoc analysis typically associated with generative design. Instead, we pave a path for purposeful exploration, allowing for both controlled directives and serendipitous design outcomes. 
